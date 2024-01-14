@@ -1,0 +1,32 @@
+﻿@page "/todo"
+@using BlazorHybridApp.Models
+
+
+<h3>Todo @todoItemList.Count(item => !item.IsDone) items</h3>
+<ul class="list-unstyled">
+	@foreach (var todo in todoItemList)
+	{
+		<li>
+			<input type="checkbox" @bind="todo.IsDone" />
+			<input @bind="todo.Title" />
+		</li>
+	}
+</ul>
+
+<input placeholder="Your todo note goes here" @bind="newTodo"/>
+<button @onclick="AddTodo">Add item</button>
+
+@code {
+	private List<TodoItem> todoItemList = new();
+	private string? newTodo;
+
+	private void AddTodo()
+	{
+		if (!string.IsNullOrWhiteSpace(newTodo))
+		{
+			var todoItem = new TodoItem { Title = newTodo };
+			todoItemList.Add(todoItem);
+			newTodo = string.Empty;
+		}
+	}
+}
